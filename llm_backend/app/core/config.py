@@ -27,4 +27,22 @@ class Settings(BaseSettings):
         env_file_encoding = 'utf-8'
         case_sensitive = True
 
+    # Redis settings
+    REDIS_URL: str
+    REDIS_PORT: int
+    REDIS_DB: int = 0
+    REDIS_PASSWORD: str = ''
+    REDIS_CACHE_EXPIRE: int = 3600  # 缓存过期时间，单位秒
+    REDIS_CACHE_THRESHOLD: float = 0.8  # 语义相似度阈值
+
+    @property
+    def REDIS_URL(self) -> str:
+        """构建Redis URL"""
+        auth = f":{self.REDIS_PASSWORD}@" if self.REDIS_PASSWORD else ""
+        return f"redis://{auth}{self.REDIS_HOST}:{self.REDIS_PORT}/{self.REDIS_DB}"
+
+    # Ollama settings
+    OLLAMA_BASE_URL: str
+    OLLAMA_EMBEDDING_MODEL: str
+
 settings = Settings()
