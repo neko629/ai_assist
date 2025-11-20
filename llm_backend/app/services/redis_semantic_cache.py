@@ -31,13 +31,13 @@ class RedisSemanticCache:
         self.cleanup_interval = cleanup_interval
 
         # 启动自动清理任务
-        asyncio.create_tash(self._auto_cleanup())
+        asyncio.create_task(self._auto_cleanup())
 
     async def _get_ollama_embedding(self, text: str) -> List[float]: #  获取文本向量
         # 使用 Ollama 生成文本向量
         try:
             async with aiohttp.ClientSession() as session:
-                async with session.get(
+                async with session.post(
                     f"{settings.OLLAMA_BASE_URL}/api/embed",
                     json = {
                         "model": self.model_name,
@@ -149,7 +149,7 @@ class RedisSemanticCache:
             if not user_message:
                 return None
 
-            current_vector = await self.getembedding(user_message)
+            current_vector = await self._get_embedding(user_message)
 
             # 遍历所有缓存项，计算相似度
             pattern = f"{self.prefix}:vec:*"

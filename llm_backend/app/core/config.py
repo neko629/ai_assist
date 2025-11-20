@@ -5,6 +5,10 @@ from pathlib import Path
 ROOT_DIR = Path(__file__).parent.parent.parent
 ENV_FILE = ROOT_DIR / ".env"
 
+class ServiceType(str, Enum):
+    DEEPSEEK = "deepseek"
+    OLLAMA = "ollama"
+
 class Settings(BaseSettings):
     # Database settings
     DB_HOST: str
@@ -28,7 +32,7 @@ class Settings(BaseSettings):
         case_sensitive = True
 
     # Redis settings
-    REDIS_URL: str
+    REDIS_HOST: str
     REDIS_PORT: int
     REDIS_DB: int = 0
     REDIS_PASSWORD: str = ''
@@ -43,6 +47,19 @@ class Settings(BaseSettings):
 
     # Ollama settings
     OLLAMA_BASE_URL: str
+    OLLAMA_CHAT_MODEL: str
+    OLLAMA_REASON_MODEL: str
     OLLAMA_EMBEDDING_MODEL: str
+    OLLAMA_AGENT_MODEL: str
+
+    # Deepseek settings
+    DEEPSEEK_API_KEY: str
+    DEEPSEEK_BASE_URL: str
+    DEEPSEEK_MODEL: str
+
+    # Service selection
+    CHAT_SERVICE: ServiceType = ServiceType.DEEPSEEK
+    REASON_SERVICE: ServiceType = ServiceType.OLLAMA
+    AGENT_SERVICE: ServiceType = ServiceType.DEEPSEEK
 
 settings = Settings()
