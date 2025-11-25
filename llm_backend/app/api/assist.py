@@ -4,6 +4,7 @@ from fastapi import APIRouter
 from pydantic import BaseModel
 from typing import List, Dict
 from app.core.logger import get_logger, log_structured
+from app.services.conversation_service import ConversationService
 from app.services.llm_factory import LLMFactory
 from fastapi.responses import StreamingResponse
 
@@ -30,7 +31,8 @@ async def chat_endpoint(request: ChatMessage):
             chat_service.generate_stream(
                 messages = request.messages,
                 user_id = request.user_id,
-                conversation_id = request.conversation_id
+                conversation_id = request.conversation_id,
+                on_complete = ConversationService.save_message
             ),
             media_type = "text/event-stream"
         )

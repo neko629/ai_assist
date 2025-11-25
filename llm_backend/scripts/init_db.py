@@ -7,7 +7,7 @@ sys.path.append(str(ROOT_DIR))
 
 import asyncio # 导入 asyncio 模块, 用于处理异步操作
 from app.core.database import Base, engine
-from app.models import user
+from app.models import user, conversation, message
 from app.core.logger import get_logger
 
 logger = get_logger(service="init_db") # 获取日志记录器

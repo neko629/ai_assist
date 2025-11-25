@@ -1,5 +1,4 @@
 from sqlalchemy import Column, Integer, String, DateTime, func
-from sqlalchemy.orm import relationship
 from app.core.database import Base
 
 class User(Base):
