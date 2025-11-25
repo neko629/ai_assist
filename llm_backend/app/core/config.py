@@ -62,4 +62,12 @@ class Settings(BaseSettings):
     REASON_SERVICE: ServiceType = ServiceType.OLLAMA
     AGENT_SERVICE: ServiceType = ServiceType.DEEPSEEK
 
+    # Search settings
+    SERPAPI_KEY: str
+    SEARCH_RESULT_COUNT: int = 3
+    SERPAPI_URL: str
+    SERPAPI_TIMEOUT: int = 15
+
+    SEARCH_USE_OLLAMA: bool = True
+
 settings = Settings()

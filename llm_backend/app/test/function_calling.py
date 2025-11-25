@@ -128,7 +128,7 @@ if use_ollama:
     base_url = "http://localhost:11434/v1/"
     model_name = "qwen2.5:7b"
 
-user_message = "What's the weather like in New York today?"
+user_message = "What's the weather like in Hangzhou today?"
 chatbot = Chatbot(model_name, base_url, api_key)
 chatbot.chat(user_message)
 

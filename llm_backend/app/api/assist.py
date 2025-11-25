@@ -61,3 +61,22 @@ async def reason_endpoint(request: ReasonRequest):
         logger.error(f"Reasoning error for user {request.user_id}: {str(e)}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
+@router.post("/search")
+async def search_endpoint(request: ChatMessage):
+    # 带有搜索功能的聊天接口
+    try:
+        logger.info(f"Processing search request for user {request.user_id} in conversation {request.conversation_id}")
+        logger.info(f"request: {request}")
+        search_service = LLMFactory.create_search_service()
+        return StreamingResponse(
+            search_service.generate(
+                query = request.messages[0]["content"],
+                user_id = request.user_id,
+                conversation_id = request.conversation_id
+            ),
+            media_type = "text/event-stream"
+        )
+    except Exception as e:
+        logger.error(f"Search error for user {request.user_id}: {str(e)}", exc_info=True)
+        raise HTTPException(status_code=500, detail=str(e))
+
